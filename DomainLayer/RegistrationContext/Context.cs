@@ -23,6 +23,7 @@ namespace DomainLayer.RegistrationContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server = DESKTOP-TMFM5HV; Database = RegistrationDb; User Id = sa; Password = 123");
+          
         }
         public DbSet<User> Users { get; set; }
     }

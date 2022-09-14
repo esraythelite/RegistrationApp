@@ -7,6 +7,10 @@ using ServiceLayer.ConcreteServices;
 using Microsoft.Extensions.DependencyInjection;
 using DomainLayer.RegistrationContext;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using RegistrationApi.Mediator.Commands;
+using RegistrationApi.Mediator;
+using RegistrationApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +21,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Context>(options => options.UseSqlServer(connectionString: "Server = DESKTOP-TMFM5HV; Database = RegistrationDb; User Id = sa; Password = 123"));
-
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddMediatR(typeof(UserRepository));
-
+builder.Services.AddMediatR(typeof(RegisterUserCommand));
 var app = builder.Build();
 
 

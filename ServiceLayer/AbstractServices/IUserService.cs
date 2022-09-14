@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.AbstractServices
 {
-    public interface IUserService
+    public interface IUserService: ICRUDService<User>
     {
 
     }

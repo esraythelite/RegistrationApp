@@ -2,8 +2,8 @@
 
 namespace RegistrationApi.BaseClient
 {
-    public interface IBaseConsumer
+    public interface IProducer
     {
-        string WriteMessage();
+        void ReadMessage(User user);
     }
 }

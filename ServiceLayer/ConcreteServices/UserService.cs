@@ -13,10 +13,11 @@ namespace ServiceLayer.ConcreteServices
     public class UserService : CRUDService<User>,IUserService
     {
         private readonly IUserRepository userRepository;
-        
+
         public UserService(IUserRepository userRepository):base(userRepository)
         {
             this.userRepository = userRepository;
+        
         }
 
     }

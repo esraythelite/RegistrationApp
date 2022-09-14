@@ -1,11 +1,13 @@
 ﻿using Confluent.Kafka;
 using DomainLayer.Entities;
+using MediatR;
 using RegistrationApi.BaseClient;
 
 namespace RegistrationApi.KafkaClient
 {
-    public class Consumer:IBaseConsumer
+    public class Consumer:IConsumer
     {
+
         ConsumerConfig conf = new ConsumerConfig
         {
             GroupId = "test-consumer-group",
@@ -17,7 +19,7 @@ namespace RegistrationApi.KafkaClient
         {
             using (var c = new ConsumerBuilder<Ignore, string>(conf).Build())
             {
-                c.Subscribe("Registration-topic");
+                c.Subscribe("StartRegistrationLast");
 
                 CancellationTokenSource cts = new CancellationTokenSource();
                 Console.CancelKeyPress += (_, e) =>
@@ -33,11 +35,13 @@ namespace RegistrationApi.KafkaClient
                         try
                         {
                             var cr = c.Consume(cts.Token);
+                            
+
                             return cr.Message.Value ;
                         }
                         catch (ConsumeException e)
                         {
-                            return $"Error occured: {e.Error.Reason}";
+                            return  $"Error occured: {e.Error.Reason}";
                         }
                     }
                 }
@@ -46,7 +50,14 @@ namespace RegistrationApi.KafkaClient
                     c.Close();
                     return ex.Message;
                 }
+
             }
+        }
+        public User ConvertMessageToUser()
+        {
+            string[] userInfos = WriteMessage().Split(" ");
+            User user = new User() { FirstName = userInfos[0], LastName = userInfos[1], BirthDate = Convert.ToDateTime(userInfos[2]), IDNo = userInfos[5], Email = userInfos[6], Password = userInfos[7] };
+            return user;
         }
     }
 }

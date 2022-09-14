@@ -22,7 +22,7 @@ namespace ServiceLayer.ConcreteServices
 
         public void Add(T entity)
         {
-            genericRepository.Add(entity);
+            if (entity != null) genericRepository.Add(entity);
         }
 
         public void Delete(T entity)
